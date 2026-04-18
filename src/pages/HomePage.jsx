@@ -116,9 +116,9 @@ function HomePage() {
           }`}
         >
           <blockquote className="text-2xl italic leading-relaxed text-slate-700 sm:text-4xl">
-            "Тарыхын билбеген элдин келечеги бүдөмүк."
+            "Өзүнүн тарыхын билбеген элдин тагдыры тайкы, келечеги бүдөмүк"
           </blockquote>
-          <p className="mt-6 text-base font-medium text-slate-500 sm:text-lg">Чыңгыз Айтматов</p>
+          <p className="mt-6 text-base font-medium text-slate-500 sm:text-lg">Асылбек Жээнбеков</p>
         </div>
       </section>
 
