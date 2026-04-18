@@ -5,7 +5,7 @@ const navItems = [
   { label: "Башкы бет", to: "/" },
   { label: "Ыйык жерлер", to: "/places" },
   { label: "Карта", to: "/map" },
-  { label: "Календарь", to: "/calendar" },
+  { label: "Жылнаама", to: "/calendar" },
   { label: "Биз жөнүндө", to: "/about" },
 ];
 
