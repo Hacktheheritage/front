@@ -1,18 +1,5 @@
 import { useState } from "react";
-
-function getGuideAnswer(text) {
-  const q = text.toLowerCase();
-  if (q.includes("сулайман") || q.includes("кайда")) {
-    return "Сулайман-Тоо Ош шаарында жайгашкан. Бул жай элдин зыярат салтында өзгөчө орунга ээ болуп, ниет кылуу жана руханий тазалануу менен байланышкан.";
-  }
-  if (q.includes("манас ордо")) {
-    return "Манас Ордо — Таластагы тарыхый-маданий комплекс. Ал Манас мурасы аркылуу элдин эс тутумун, урмат-сыйын жана биримдик идеясын сактап турат.";
-  }
-  if (q.includes("петроглиф")) {
-    return "Петроглиф — таш бетине түшүрүлгөн байыркы белги. Анда аңчылык, жаратылыш жана адамдын руханий дүйнөсү чагылдырылып, салттуу билим муундан муунга өткөн.";
-  }
-  return "Сурооңуз үчүн рахмат. Бул тема боюнча салт, тарых жана руханий маани жагын түшүндүрүп бере алам. Кааласаңыз, конкреттүү жердин атын жазыңыз.";
-}
+import { sendChatMessage } from "../api/apiClient";
 
 function Chatbot() {
   const [isOpen, setIsOpen] = useState(false);
@@ -20,11 +7,24 @@ function Chatbot() {
   const [reply, setReply] = useState(
     "Саламатсызбы! Мен сизге Кыргызстандын ыйык жерлерин түшүндүрүп бере алам."
   );
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSend = () => {
-    if (!message.trim()) return;
-    setReply(getGuideAnswer(message));
-    setMessage("");
+  const handleSend = async () => {
+    const trimmed = message.trim();
+    if (!trimmed) return;
+
+    setIsLoading(true);
+    try {
+      const response = await sendChatMessage(trimmed);
+      setReply(response?.reply || "Ката чыкты. Бир аздан кийин кайра аракет кылыңыз.");
+    } catch (error) {
+      setReply(
+        "Сураныч, серверге туташуу учурунда ката чыкты. Жалпысынан жооп алуу үчүн кайра аракет кылыңыз."
+      );
+    } finally {
+      setIsLoading(false);
+      setMessage("");
+    }
   };
 
   return (
@@ -32,25 +32,10 @@ function Chatbot() {
       {isOpen && (
         <div className="mb-3 w-[20rem] rounded-2xl border border-amber-100 bg-white/95 p-4 shadow-2xl shadow-slate-300/40 backdrop-blur-md transition-all duration-300 sm:w-[22rem]">
           <h3 className="text-base font-semibold text-slate-800">Bilge гид</h3>
-          <p className="mt-1 text-sm text-slate-500">
-            Жандуу архив тарабынан иштелген
-          </p>
+          <p className="mt-1 text-sm text-slate-500">Сурооңузду жазып, серверден жооп алыңыз.</p>
 
           <div className="mt-4 rounded-xl border border-slate-100 bg-slate-50 p-3 text-sm text-slate-600">
             {reply}
-          </div>
-
-          <div className="mt-3 flex flex-wrap gap-2">
-            {["Сулайман-Тоо кайда?", "Манас Ордо жөнүндө", "Петроглиф деген эмне?"].map((q) => (
-              <button
-                key={q}
-                type="button"
-                onClick={() => setReply(getGuideAnswer(q))}
-                className="rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs text-amber-800"
-              >
-                {q}
-              </button>
-            ))}
           </div>
 
           <div className="mt-3 flex gap-2">
@@ -58,7 +43,10 @@ function Chatbot() {
               value={message}
               onChange={(event) => setMessage(event.target.value)}
               onKeyDown={(event) => {
-                if (event.key === "Enter") handleSend();
+                if (event.key === "Enter") {
+                  event.preventDefault();
+                  handleSend();
+                }
               }}
               type="text"
               placeholder="Суроо жазыңыз..."
@@ -67,9 +55,10 @@ function Chatbot() {
             <button
               type="button"
               onClick={handleSend}
-              className="rounded-xl bg-amber-700 px-3 py-2 text-sm font-medium text-white transition hover:bg-amber-600"
+              disabled={isLoading}
+              className="rounded-xl bg-amber-700 px-3 py-2 text-sm font-medium text-white transition hover:bg-amber-600 disabled:cursor-not-allowed disabled:opacity-60"
             >
-              Жөнөт
+              {isLoading ? "Жүктөө..." : "Жөнөт"}
             </button>
           </div>
         </div>

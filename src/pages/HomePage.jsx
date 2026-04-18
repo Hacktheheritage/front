@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { HERO_SLIDES } from "../data/heroLandmarks";
+import { useHomeContent } from "../contexts/HomeContentContext";
 
 const HERO_ROTATE_MS = 5 * 60 * 1000;
 
@@ -30,65 +31,35 @@ const STATS = [
   { value: "50+", label: "Петроглиф" },
 ];
 
-const FEATURES = [
-  {
-    href: "/places",
-    gradient: "from-amber-50 to-orange-50",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="h-9 w-9 text-amber-700">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418" />
-      </svg>
-    ),
-    title: "Ыйык Жерлер",
-    desc: "Сулайман-Тоо, Манас Ордо жана ондогон тарыхый жайларды изилдеңиз. Петроглифтерди AI аркылуу талдаңыз.",
-    cta: "Жерлерди ачуу",
-  },
-  {
-    href: "/map",
-    gradient: "from-sky-50 to-teal-50",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="h-9 w-9 text-teal-700">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M9 6.75V15m6-6v8.25m.503 3.498 4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 0 0-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0Z" />
-      </svg>
-    ),
-    title: "Интерактив Карта",
-    desc: "Кыргызстандын тарыхый жана маданий жайларын интерактив картадан таап, байланыштарды ачыңыз.",
-    cta: "Картаны ачуу",
-  },
-  {
-    href: "/calendar",
-    gradient: "from-rose-50 to-amber-50",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="h-9 w-9 text-rose-700">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />
-      </svg>
-    ),
-    title: "Жылнаама 2026",
-    desc: "Мүчөл жылдарын, маданий майрамдарды жана тарыхый даталарды толук жылдык форматта карап чыгыңыз.",
-    cta: "Жылнааманы ачуу",
-  },
-];
-
-const PLACES = [
-  {
-    name: "Сулайман-Тоо",
-    region: "Ош облусу",
-    badge: "ЮНЕСКО мурасы",
-    desc: "Ыйык тоо — байыркы зыярат жери. Кыргыздардын руханий дүйнөтаанымы жана табият менен байланышы ушул жерде чагылдырылат.",
-    img: "/assets/places/sulaiman_too.jpg",
-    accent: "text-violet-200",
-    badgeStyle: "border-violet-300/50 bg-violet-900/50 text-violet-100",
-  },
-  {
-    name: "Манас Ордо",
-    region: "Талас облусу",
-    badge: "Улуттук комплекс",
-    desc: "Баатыр Манастын мемориалдык комплекси — кыргыз эпосунун жүрөгү жана улуттук руханий кайнар булагы.",
-    img: "/assets/places/manas_ordo.jpg",
-    accent: "text-amber-200",
-    badgeStyle: "border-amber-400/50 bg-amber-900/50 text-amber-100",
-  },
-];
+const getHomeIcon = (name) => {
+  const commonClasses = "h-9 w-9";
+  switch (name) {
+    case "globe":
+      return (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className={`${commonClasses} text-amber-700`}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418" />
+        </svg>
+      );
+    case "map":
+      return (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className={`${commonClasses} text-teal-700`}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M9 6.75V15m6-6v8.25m.503 3.498 4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 0 0-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0Z" />
+        </svg>
+      );
+    case "calendar":
+      return (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className={`${commonClasses} text-rose-700`}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />
+        </svg>
+      );
+    default:
+      return (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className={`${commonClasses} text-slate-600`}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M12 5.25v13.5m6-6H6" />
+        </svg>
+      );
+  }
+};
 
 // ── Ornamental SVG ────────────────────────────────────────────────────────────
 function KyrgyzOrnament({ className = "" }) {
@@ -129,6 +100,7 @@ function useVisible(threshold = 0.15) {
 
 // ── Component ────────────────────────────────────────────────────────────────
 function HomePage() {
+  const { features, places, showMission, showQuote } = useHomeContent();
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState(initialBotMessages);
   const [heroIndex, setHeroIndex] = useState(0);
@@ -251,9 +223,9 @@ function HomePage() {
           </h2>
         </div>
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
-          {FEATURES.map((f, i) => (
+          {features.map((f, i) => (
             <a
-              key={i}
+              key={f.id || i}
               href={f.href}
               className={`group relative flex flex-col overflow-hidden rounded-3xl border border-slate-100 bg-gradient-to-b ${f.gradient} p-7 shadow-md transition-[transform,box-shadow] duration-300 hover:-translate-y-1.5 hover:shadow-xl`}
               style={featuresVisible
@@ -261,7 +233,7 @@ function HomePage() {
                 : { opacity: 0 }}
             >
               <div className="w-fit rounded-2xl bg-white/80 p-3 shadow-sm">
-                {f.icon}
+                {getHomeIcon(f.iconName)}
               </div>
               <h3
                 className="mt-5 text-2xl font-semibold text-slate-800"
@@ -293,9 +265,9 @@ function HomePage() {
           </h2>
         </div>
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-          {PLACES.map((p, i) => (
+          {places.map((p, i) => (
             <a
-              key={i}
+              key={p.id || i}
               href="/places"
               className="group relative overflow-hidden rounded-3xl shadow-xl transition-[transform,box-shadow] duration-300 hover:-translate-y-1.5 hover:shadow-2xl"
               style={placesVisible
@@ -359,7 +331,8 @@ function HomePage() {
       </section>
 
       {/* ── 5. MISSION TEASER ───────────────────────────────────────────── */}
-      <section ref={missionRef} className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+      {showMission ? (
+        <section ref={missionRef} className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
         <div
           className={`overflow-hidden rounded-3xl border border-slate-100 bg-white/80 shadow-xl shadow-slate-200/50 transition-all duration-700 ${missionVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
             }`}
@@ -409,12 +382,14 @@ function HomePage() {
           </div>
         </div>
       </section>
+      ) : null}
 
       {/* ── 6. QUOTE ────────────────────────────────────────────────────── */}
-      <section ref={quoteRef} className="mx-auto max-w-4xl px-4 py-14 sm:px-6">
-        <div
-          className={`relative overflow-hidden rounded-3xl bg-white/90 px-8 py-12 text-center shadow-xl shadow-slate-200/40 sm:px-16 transition-all duration-700 ${quoteVisible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
-            }`}
+      {showQuote ? (
+        <section ref={quoteRef} className="mx-auto max-w-4xl px-4 py-14 sm:px-6">
+          <div
+            className={`relative overflow-hidden rounded-3xl bg-white/90 px-8 py-12 text-center shadow-xl shadow-slate-200/40 sm:px-16 transition-all duration-700 ${quoteVisible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
+              }`}
         >
           <span
             className="pointer-events-none absolute left-5 top-0 select-none leading-none text-9xl font-bold text-amber-100"
@@ -433,6 +408,7 @@ function HomePage() {
           </p>
         </div>
       </section>
+      ) : null}
 
       {/* ── 7. CHATBOT ──────────────────────────────────────────────────── */}
       <section ref={botRef} className="mx-auto max-w-3xl px-4 pb-24 pt-4 sm:px-6">
