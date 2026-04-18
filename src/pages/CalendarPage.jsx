@@ -21,6 +21,7 @@ const kyrgyzMonths = [
 ];
 
 const monthIcons = ["🐭", "🐄", "🐆", "🐇", "🦉", "🐍", "🐎", "🐑", "🐒", "🐓", "🐕", "🐗"];
+const cycleNames = ["Чычкан", "Уй", "Барыс", "Коён", "Улу", "Жылан", "Жылкы", "Кой", "Маймыл", "Тоок", "Ит", "Доӊуз"];
 
 function toMondayFirstIndex(dayValue) {
   return (dayValue + 6) % 7;
@@ -56,6 +57,22 @@ function buildMonthDays(monthIndex) {
   return cells;
 }
 
+function getYearsForAnimal(index, startYear = 1924, endYear = 2036) {
+  const years = [];
+  for (let year = startYear; year <= endYear; year += 1) {
+    const cycleIndex = ((year - 2020) % 12 + 12) % 12;
+    if (cycleIndex === index) years.push(year);
+  }
+  return years;
+}
+
+function buildAllMonths() {
+  return kyrgyzMonths.map((item, idx) => {
+    const cells = buildMonthDays(idx);
+    return { ...item, monthIndex: idx, cells };
+  });
+}
+
 function CalendarPage() {
   const now = dayjs();
   const initialMonth = now.year() === YEAR ? now.month() : 0;
@@ -63,8 +80,10 @@ function CalendarPage() {
   const [activeMonth, setActiveMonth] = useState(initialMonth);
   const [selectedDay, setSelectedDay] = useState(initialDay);
   const [flipped, setFlipped] = useState({});
+  const [calendarView, setCalendarView] = useState("year");
 
   const monthCells = useMemo(() => buildMonthDays(activeMonth), [activeMonth]);
+  const allMonths = useMemo(() => buildAllMonths(), []);
   const selectedDate = dayjs(new Date(YEAR, activeMonth, selectedDay));
   const selectedInfo = getKyrgyzDate(selectedDate.toDate());
   const todayInfo = getKyrgyzDate(now.toDate());
@@ -99,60 +118,123 @@ function CalendarPage() {
       </section>
 
       <section className="mt-6 rounded-2xl border border-[#e7dccd] bg-white p-5 shadow-sm transition-all duration-300">
-        <div className="flex items-center justify-between">
-          <button
-            type="button"
-            onClick={() => handleMonthChange(-1)}
-            className="rounded-full border border-[#dac7b0] px-3 py-1 text-sm text-[#b24f6b] transition hover:bg-[#f9efea]"
-          >
-            ←
-          </button>
-          <div className="text-center">
-            <h2 className="text-2xl font-semibold text-[#14213d]">{kyrgyzMonths[activeMonth].name}</h2>
-            <p className="text-sm text-slate-600">{kyrgyzMonths[activeMonth].range}</p>
-          </div>
-          <button
-            type="button"
-            onClick={() => handleMonthChange(1)}
-            className="rounded-full border border-[#dac7b0] px-3 py-1 text-sm text-[#b24f6b] transition hover:bg-[#f9efea]"
-          >
-            →
-          </button>
+        <div className="mb-4 flex items-center justify-between">
+          <h2 className="text-2xl font-semibold text-[#14213d]">
+            {calendarView === "year" ? "2026-жылдын толук календары" : kyrgyzMonths[activeMonth].name}
+          </h2>
+          {calendarView === "month" ? (
+            <button
+              type="button"
+              onClick={() => setCalendarView("year")}
+              className="rounded-full border border-[#dac7b0] px-4 py-1.5 text-sm text-[#b24f6b] transition hover:bg-[#f9efea]"
+            >
+              Толук календарды көрүү
+            </button>
+          ) : null}
         </div>
 
-        <div className="mt-5 grid grid-cols-7 gap-2">
-          {weekDaysShort.map((name) => (
-            <div key={name} className="rounded-lg bg-[#f7f1e7] px-2 py-2 text-center text-xs font-semibold text-[#14213d]">
-              {name}
+        {calendarView === "year" ? (
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+            {allMonths.map((monthBlock) => (
+              <button
+                key={monthBlock.name}
+                type="button"
+                onClick={() => {
+                  setActiveMonth(monthBlock.monthIndex);
+                  setSelectedDay(1);
+                  setCalendarView("month");
+                }}
+                className="rounded-2xl border border-[#eadfce] bg-white p-3 text-left transition hover:-translate-y-0.5 hover:shadow-md"
+              >
+                <div className="mb-2">
+                  <p className="text-lg font-semibold text-[#14213d]">{monthBlock.name}</p>
+                  <p className="text-xs text-slate-500">{monthBlock.range}</p>
+                </div>
+                <div className="grid grid-cols-7 gap-1">
+                  {weekDaysShort.map((name) => (
+                    <span key={`${monthBlock.name}-${name}`} className="text-center text-[10px] font-semibold text-slate-500">
+                      {name}
+                    </span>
+                  ))}
+                  {monthBlock.cells.map((day, idx) => (
+                    <span
+                      key={`${monthBlock.name}-${idx}`}
+                      className={`rounded-md py-1 text-center text-xs ${
+                        day ? "text-[#14213d]" : "text-transparent"
+                      } ${
+                        day &&
+                        now.year() === YEAR &&
+                        now.month() === monthBlock.monthIndex &&
+                        now.date() === day
+                          ? "bg-[#fff4f0] font-semibold text-[#b24f6b]"
+                          : ""
+                      }`}
+                    >
+                      {day || "."}
+                    </span>
+                  ))}
+                </div>
+              </button>
+            ))}
+          </div>
+        ) : (
+          <>
+            <div className="flex items-center justify-between">
+              <button
+                type="button"
+                onClick={() => handleMonthChange(-1)}
+                className="rounded-full border border-[#dac7b0] px-3 py-1 text-sm text-[#b24f6b] transition hover:bg-[#f9efea]"
+              >
+                ←
+              </button>
+              <div className="text-center">
+                <h3 className="text-2xl font-semibold text-[#14213d]">{kyrgyzMonths[activeMonth].name}</h3>
+                <p className="text-sm text-slate-600">{kyrgyzMonths[activeMonth].range}</p>
+              </div>
+              <button
+                type="button"
+                onClick={() => handleMonthChange(1)}
+                className="rounded-full border border-[#dac7b0] px-3 py-1 text-sm text-[#b24f6b] transition hover:bg-[#f9efea]"
+              >
+                →
+              </button>
             </div>
-          ))}
-          {monthCells.map((day, idx) => (
-            <button
-              key={`${activeMonth}-${idx}`}
-              type="button"
-              disabled={!day}
-              onClick={() => day && setSelectedDay(day)}
-              className={`min-h-[82px] rounded-xl border p-2 text-left transition ${
-                !day
-                  ? "cursor-default border-transparent bg-transparent"
-                  : "border-[#eadfce] bg-white hover:-translate-y-0.5 hover:shadow-md"
-              } ${
-                day === selectedDay
-                  ? "border-[#b24f6b] ring-2 ring-[#f3d7df]"
-                  : ""
-              } ${isToday(day) ? "bg-[#fff4f0]" : ""}`}
-            >
-              {day && (
-                <>
-                  <p className="text-base font-semibold text-[#14213d]">{day}</p>
-                  <p className="mt-1 text-[11px] text-slate-500">
-                    {weekDays[toMondayFirstIndex(new Date(YEAR, activeMonth, day).getDay())]}
-                  </p>
-                </>
-              )}
-            </button>
-          ))}
-        </div>
+
+            <div className="mt-5 grid grid-cols-7 gap-2">
+              {weekDaysShort.map((name) => (
+                <div key={name} className="rounded-lg bg-[#f7f1e7] px-2 py-2 text-center text-xs font-semibold text-[#14213d]">
+                  {name}
+                </div>
+              ))}
+              {monthCells.map((day, idx) => (
+                <button
+                  key={`${activeMonth}-${idx}`}
+                  type="button"
+                  disabled={!day}
+                  onClick={() => day && setSelectedDay(day)}
+                  className={`min-h-[82px] rounded-xl border p-2 text-left transition ${
+                    !day
+                      ? "cursor-default border-transparent bg-transparent"
+                      : "border-[#eadfce] bg-white hover:-translate-y-0.5 hover:shadow-md"
+                  } ${
+                    day === selectedDay
+                      ? "border-[#b24f6b] ring-2 ring-[#f3d7df]"
+                      : ""
+                  } ${isToday(day) ? "bg-[#fff4f0]" : ""}`}
+                >
+                  {day && (
+                    <>
+                      <p className="text-base font-semibold text-[#14213d]">{day}</p>
+                      <p className="mt-1 text-[11px] text-slate-500">
+                        {weekDays[toMondayFirstIndex(new Date(YEAR, activeMonth, day).getDay())]}
+                      </p>
+                    </>
+                  )}
+                </button>
+              ))}
+            </div>
+          </>
+        )}
       </section>
 
       <section className="mt-6 rounded-2xl border border-[#e7dccd] bg-white p-5 shadow-sm">
@@ -166,10 +248,11 @@ function CalendarPage() {
       </section>
 
       <section className="mt-8">
-        <h2 className="text-2xl font-semibold text-[#14213d]">Мүчөл жылдар</h2>
+        <h2 className="text-2xl font-semibold text-[#14213d]">Жыл сүрүү</h2>
         <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {mucholYears.map((item, idx) => {
             const opened = Boolean(flipped[item.name]);
+            const years = getYearsForAnimal(idx);
             return (
               <button
                 key={item.name}
@@ -184,11 +267,13 @@ function CalendarPage() {
                 >
                   <div className="absolute inset-0 rounded-2xl border border-[#eadfce] bg-white p-4 shadow-sm [backface-visibility:hidden]">
                     <p className="text-4xl">{monthIcons[idx]}</p>
-                    <h3 className="mt-3 text-xl font-semibold text-[#14213d]">{item.name}</h3>
+                    <h3 className="mt-3 text-xl font-semibold text-[#14213d]">{cycleNames[idx]}</h3>
                     <p className="mt-2 text-sm text-slate-600">{item.yearLabel}</p>
+                    <p className="mt-2 text-xs text-slate-500">Жылдар: {years.slice(-4).join(", ")}</p>
                   </div>
                   <div className="absolute inset-0 rounded-2xl border border-[#e2ccd2] bg-[#fff7f5] p-4 text-left shadow-sm [backface-visibility:hidden] [transform:rotateY(180deg)]">
                     <p className="text-sm leading-relaxed text-slate-700">{item.description}</p>
+                    <p className="mt-2 text-xs text-slate-500">Жылдар: {years.join(", ")}</p>
                   </div>
                 </div>
               </button>
