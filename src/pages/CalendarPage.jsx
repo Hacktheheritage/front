@@ -20,8 +20,21 @@ const kyrgyzMonths = [
   { name: "Үчтүн айы", range: "11-декабрдан 14-январга чейин" },
 ];
 
-const monthIcons = ["🐭", "🐄", "🐆", "🐇", "🦉", "🐍", "🐎", "🐑", "🐒", "🐓", "🐕", "🐗"];
 const cycleNames = ["Чычкан", "Уй", "Барыс", "Коён", "Улу", "Жылан", "Жылкы", "Кой", "Маймыл", "Тоок", "Ит", "Доӊуз"];
+const cycleImages = [
+  "/assets/animals/chychkan.png",
+  "/assets/animals/ui.png",
+  "/assets/animals/barys.png",
+  "/assets/animals/koyon.png",
+  "/assets/animals/uluu.png",
+  "/assets/animals/jylan.png",
+  "/assets/animals/jylky.png",
+  "/assets/animals/koi.png",
+  "/assets/animals/maimyl.png",
+  "/assets/animals/took.png",
+  "/assets/animals/it.png",
+  "/assets/animals/donuz.png",
+];
 
 function toMondayFirstIndex(dayValue) {
   return (dayValue + 6) % 7;
@@ -266,7 +279,11 @@ function CalendarPage() {
                   }`}
                 >
                   <div className="absolute inset-0 rounded-2xl border border-[#eadfce] bg-white p-4 shadow-sm [backface-visibility:hidden]">
-                    <p className="text-4xl">{monthIcons[idx]}</p>
+                    <img
+                      src={cycleImages[idx]}
+                      alt={cycleNames[idx]}
+                      className="h-20 w-full object-contain"
+                    />
                     <h3 className="mt-3 text-xl font-semibold text-[#14213d]">{cycleNames[idx]}</h3>
                     <p className="mt-2 text-sm text-slate-600">{item.yearLabel}</p>
                     <p className="mt-2 text-xs text-slate-500">Жылдар: {years.slice(-4).join(", ")}</p>
