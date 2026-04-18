@@ -5,7 +5,8 @@
 :root {
   font-family: "Inter", "Segoe UI", Roboto, system-ui, -apple-system, sans-serif;
   color: #0f172a;
-  background-color: #ffffff;
+  background-color: #f4efe5;
+  scroll-behavior: smooth;
 }
 
 * {
@@ -15,5 +16,49 @@
 body {
   margin: 0;
   min-height: 100vh;
-  background: #ffffff;
+  background: #f4efe5;
+}
+
+.header-glow,
+.footer-glow {
+  position: relative;
+  overflow: hidden;
+}
+
+.header-glow::after,
+.footer-glow::after {
+  content: "";
+  position: absolute;
+  inset: auto -20% -60% -20%;
+  height: 180%;
+  pointer-events: none;
+  background: radial-gradient(circle, rgba(217, 119, 6, 0.14) 0%, rgba(217, 119, 6, 0) 58%);
+  animation: shimmerFlow 8s linear infinite;
+}
+
+.parallax-bg {
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  transform: scale(1.05);
+}
+
+main {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.2) 1px, transparent 1px);
+  background-size: 3px 3px;
+}
+
+@keyframes shimmerFlow {
+  0% {
+    transform: translateX(-8%);
+    opacity: 0.45;
+  }
+  50% {
+    transform: translateX(8%);
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateX(-8%);
+    opacity: 0.45;
+  }
 }
