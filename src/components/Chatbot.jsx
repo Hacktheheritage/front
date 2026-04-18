@@ -31,7 +31,7 @@ function Chatbot() {
     <div className="fixed bottom-5 right-4 z-50 md:right-6">
       {isOpen && (
         <div className="mb-3 w-[20rem] rounded-2xl border border-amber-100 bg-white/95 p-4 shadow-2xl shadow-slate-300/40 backdrop-blur-md transition-all duration-300 sm:w-[22rem]">
-          <h3 className="text-base font-semibold text-slate-800">Мурас гид</h3>
+          <h3 className="text-base font-semibold text-slate-800">Bilge гид</h3>
           <p className="mt-1 text-sm text-slate-500">
             Жандуу архив тарабынан иштелген
           </p>
@@ -80,7 +80,7 @@ function Chatbot() {
         onClick={() => setIsOpen((prev) => !prev)}
         className="inline-flex min-w-[11rem] items-center justify-center gap-2 rounded-full bg-amber-700 px-6 py-3 text-base font-medium text-white shadow-lg shadow-amber-300 transition hover:bg-amber-600"
       >
-        <span>{isOpen ? "Жабуу" : "Мурас гид"}</span>
+        <span>{isOpen ? "Жабуу" : "Bilge гид"}</span>
         <span className={`text-lg leading-none transition-transform ${isOpen ? "rotate-180" : ""}`}>
           ↑
         </span>

@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import dayjs from "dayjs";
 import { mucholYears } from "../data/mucholYears";
+import { IconCalendar, IconMapPin, IconMoonStars } from "../components/UiIcons";
 
 const YEAR = 2026;
 const weekDays = ["Дүйшөмбү", "Шейшемби", "Шаршемби", "Бейшемби", "Жума", "Ишемби", "Жекшемби"];
@@ -20,7 +21,6 @@ const kyrgyzMonths = [
   { name: "Үчтүн айы", range: "11-декабрдан 14-январга чейин" },
 ];
 
-const cycleNames = ["Чычкан", "Уй", "Барыс", "Коён", "Улу", "Жылан", "Жылкы", "Кой", "Маймыл", "Тоок", "Ит", "Доӊуз"];
 const cycleImages = [
   "/assets/animals/chychkan.png",
   "/assets/animals/ui.png",
@@ -119,13 +119,22 @@ function CalendarPage() {
       <section className="mt-6 rounded-2xl border border-[#e7dccd] bg-white p-5 shadow-sm">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <p className="text-sm text-slate-500">📅 Бүгүн</p>
+            <p className="flex items-center gap-2 text-sm text-slate-500">
+              <IconCalendar className="h-4 w-4 shrink-0 text-amber-800/90" />
+              <span>Бүгүн</span>
+            </p>
             <p className="text-lg font-semibold text-[#14213d]">{now.format("DD.MM.YYYY")}</p>
           </div>
           <div className="text-right">
-            <p className="text-sm text-slate-500">🌙 Кыргыз календары</p>
+            <p className="flex items-center justify-end gap-2 text-sm text-slate-500">
+              <IconMoonStars className="h-4 w-4 shrink-0 text-amber-800/90" />
+              <span>Кыргыз календары</span>
+            </p>
             <p className="text-lg font-semibold text-[#14213d]">Ай: {todayInfo.month}</p>
-            <p className="text-sm text-slate-600">📍 {todayInfo.range}</p>
+            <p className="mt-0.5 flex items-center justify-end gap-2 text-sm text-slate-600">
+              <IconMapPin className="h-4 w-4 shrink-0 text-amber-800/85" />
+              <span>{todayInfo.range}</span>
+            </p>
           </div>
         </div>
       </section>
@@ -260,9 +269,12 @@ function CalendarPage() {
         <p className="mt-1 text-sm text-slate-600">{selectedInfo.range}</p>
       </section>
 
-      <section className="mt-8">
-        <h2 className="text-2xl font-semibold text-[#14213d]">Жыл сүрүү</h2>
-        <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <section className="calendar-cycle-section mt-10">
+        <h2 className="calendar-cycle-heading text-2xl text-[#14213d]">Жыл сүрүү</h2>
+        <p className="mt-2 max-w-2xl text-sm text-stone-600">
+          Он эки жылдык цикл. Картага бассаңыз, арткы жагында кыскача маалымат ачылат.
+        </p>
+        <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {mucholYears.map((item, idx) => {
             const opened = Boolean(flipped[item.name]);
             const years = getYearsForAnimal(idx);
@@ -271,26 +283,35 @@ function CalendarPage() {
                 key={item.name}
                 type="button"
                 onClick={() => setFlipped((prev) => ({ ...prev, [item.name]: !prev[item.name] }))}
-                className="group h-56 [perspective:1000px]"
+                className="group min-h-[15.5rem] text-left [perspective:1000px]"
               >
                 <div
-                  className={`relative h-full w-full rounded-2xl transition-transform duration-500 [transform-style:preserve-3d] ${
+                  className={`relative h-full min-h-[15.5rem] w-full rounded-2xl transition-transform duration-500 [transform-style:preserve-3d] ${
                     opened ? "[transform:rotateY(180deg)]" : ""
                   }`}
                 >
-                  <div className="absolute inset-0 rounded-2xl border border-[#eadfce] bg-white p-4 shadow-sm [backface-visibility:hidden]">
-                    <img
-                      src={cycleImages[idx]}
-                      alt={cycleNames[idx]}
-                      className="h-20 w-full object-contain"
-                    />
-                    <h3 className="mt-3 text-xl font-semibold text-[#14213d]">{cycleNames[idx]}</h3>
-                    <p className="mt-2 text-sm text-slate-600">{item.yearLabel}</p>
-                    <p className="mt-2 text-xs text-slate-500">Жылдар: {years.slice(-4).join(", ")}</p>
+                  <div className="absolute inset-0 flex flex-col rounded-2xl border border-[#e8dfd2] bg-white p-5 shadow-sm [backface-visibility:hidden]">
+                    <div className="flex min-h-[7.5rem] flex-1 items-center justify-center rounded-xl bg-[#f7f4ef] p-4 ring-1 ring-stone-100/80">
+                      <img
+                        src={cycleImages[idx]}
+                        alt=""
+                        className="max-h-[5.5rem] w-full object-contain object-center"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </div>
+                    <p className="calendar-animal-title mt-5 text-center text-[1.125rem] leading-snug text-[#14213d]">
+                      {item.yearLabel}
+                    </p>
+                    <p className="calendar-animal-years mt-3 text-center text-[0.8125rem] text-stone-500">
+                      Жылдар: {years.slice(-4).join(", ")}
+                    </p>
                   </div>
-                  <div className="absolute inset-0 rounded-2xl border border-[#e2ccd2] bg-[#fff7f5] p-4 text-left shadow-sm [backface-visibility:hidden] [transform:rotateY(180deg)]">
-                    <p className="text-sm leading-relaxed text-slate-700">{item.description}</p>
-                    <p className="mt-2 text-xs text-slate-500">Жылдар: {years.join(", ")}</p>
+                  <div className="absolute inset-0 flex flex-col rounded-2xl border border-[#e2d5c8] bg-[#faf7f2] p-5 text-left shadow-sm [backface-visibility:hidden] [transform:rotateY(180deg)]">
+                    <p className="text-sm leading-relaxed text-stone-700">{item.description}</p>
+                    <p className="calendar-animal-years mt-auto pt-4 text-xs text-stone-500">
+                      Жылдар: {years.join(", ")}
+                    </p>
                   </div>
                 </div>
               </button>

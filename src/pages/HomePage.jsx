@@ -1,4 +1,8 @@
 import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
+import { HERO_SLIDES } from "../data/heroLandmarks";
+
+const HERO_ROTATE_MS = 5 * 60 * 1000;
 
 const initialBotMessages = [
   {
@@ -36,6 +40,16 @@ function HomePage() {
   const [botVisible, setBotVisible] = useState(false);
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState(initialBotMessages);
+  const [heroIndex, setHeroIndex] = useState(0);
+
+  const currentHero = HERO_SLIDES[heroIndex] ?? HERO_SLIDES[0];
+
+  useEffect(() => {
+    const id = window.setInterval(() => {
+      setHeroIndex((i) => (i + 1) % HERO_SLIDES.length);
+    }, HERO_ROTATE_MS);
+    return () => window.clearInterval(id);
+  }, []);
 
   useEffect(() => {
     const quoteObserver = new IntersectionObserver(
@@ -75,12 +89,20 @@ function HomePage() {
   return (
     <main className="bg-[#f4efe5]">
       <section className="relative isolate min-h-[92vh] overflow-hidden pt-24">
-        <div
-          className="parallax-bg absolute inset-0 -z-20"
-          style={{
-            backgroundImage: "url('/hero-kyrgyz-mountains.png')",
-          }}
-        />
+        <div className="absolute inset-0 -z-20">
+          {HERO_SLIDES.map((slide, i) => (
+            <div
+              key={slide.id}
+              className="parallax-bg absolute inset-0 transition-opacity duration-[2000ms] ease-out"
+              style={{
+                backgroundImage: `url('${slide.image}')`,
+                opacity: i === heroIndex ? 1 : 0,
+                pointerEvents: "none",
+              }}
+              aria-hidden={i !== heroIndex}
+            />
+          ))}
+        </div>
         <div className="absolute inset-0 -z-10 bg-gradient-to-b from-[#130c24]/82 via-[#151636]/58 to-[#f4efe5]" />
         <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_50%_15%,rgba(255,196,196,0.25),rgba(255,255,255,0))]" />
 
@@ -95,17 +117,45 @@ function HomePage() {
             заманбап форматта таба аласыз.
           </p>
           <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
-            <a className="rounded-full bg-amber-700 px-6 py-3 text-sm font-medium hover:bg-amber-600" href="/map">
+            <Link
+              className="rounded-full bg-amber-700 px-6 py-3 text-sm font-medium hover:bg-amber-600"
+              to={`/map?place=${currentHero.id}`}
+            >
               Картадан көрүү
-            </a>
-            <a
+            </Link>
+            <Link
               className="rounded-full border border-white/70 bg-white/10 px-6 py-3 text-sm font-medium backdrop-blur hover:bg-white/20"
-              href="/places"
+              to="/places"
             >
               Изилдөөнү баштоо
-            </a>
+            </Link>
           </div>
         </div>
+
+        <div className="pointer-events-none absolute bottom-5 left-0 right-0 z-10 flex justify-center px-4 sm:bottom-7">
+          <div
+            className="flex max-w-[min(100%,28rem)] items-center gap-3 rounded-full border border-white/25 bg-gradient-to-r from-black/45 to-black/35 px-4 py-2.5 pl-4 shadow-lg shadow-black/20 ring-1 ring-white/10 backdrop-blur-md sm:gap-3.5 sm:px-5 sm:py-3"
+            aria-label={`Сүрөттүн жайгашуусу: ${currentHero.caption}`}
+          >
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-amber-500/25 text-amber-100 ring-1 ring-amber-200/40">
+              <svg
+                className="h-4 w-4 sm:h-[1.125rem] sm:w-[1.125rem]"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden
+              >
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z" />
+              </svg>
+            </span>
+            <p
+              key={currentHero.id}
+              className="min-w-0 text-left font-['Cormorant_Garamond',Georgia,serif] text-base font-semibold leading-snug tracking-[0.04em] text-amber-50/95 sm:text-lg"
+            >
+              {currentHero.caption}
+            </p>
+          </div>
+        </div>
+
         <div className="pointer-events-none absolute bottom-0 h-24 w-full bg-gradient-to-b from-transparent to-[#f4efe5]" />
       </section>
 
