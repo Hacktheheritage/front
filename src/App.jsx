@@ -1,4 +1,5 @@
 import { Route, Routes } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Chatbot from "./components/Chatbot";
 import Footer from "./components/Footer";
@@ -9,6 +10,9 @@ import CalendarPage from "./pages/CalendarPage";
 import AboutPage from "./pages/AboutPage";
 
 function App() {
+  const location = useLocation();
+  const isHomePage = location.pathname === "/";
+
   return (
     <div className="min-h-screen bg-[#f4efe5] text-slate-800">
       <Navbar />
@@ -20,7 +24,7 @@ function App() {
         <Route path="/about" element={<AboutPage />} />
       </Routes>
       <Footer />
-      <Chatbot />
+      {!isHomePage && <Chatbot />}
     </div>
   );
 }

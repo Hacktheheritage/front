@@ -25,13 +25,13 @@ function Navbar() {
       className={`fixed inset-x-0 top-0 z-40 transition-all duration-300 ${
         isScrolled
           ? "header-glow border-b border-amber-100/80 bg-[#f4efe5]/92 shadow-sm backdrop-blur-lg"
-          : "bg-transparent"
+          : "border-b border-white/15 bg-[#0f1b3d]/35 backdrop-blur-md"
       }`}
     >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        <NavLink to="/" className="flex items-end gap-2 text-2xl font-semibold tracking-tight text-slate-900">
-          <span className="text-amber-800">𐰉𐰃𐰠𐰏𐰀</span>
-          <span className="text-base font-medium text-slate-700">Билге</span>
+        <NavLink to="/" className="flex items-end gap-2 text-2xl font-semibold tracking-tight">
+          <span className={isScrolled ? "text-amber-800" : "text-amber-200"}>𐰉𐰃𐰠𐰏𐰀</span>
+          <span className={`text-base font-medium ${isScrolled ? "text-slate-700" : "text-slate-100"}`}>Билге</span>
         </NavLink>
 
         <nav className="hidden items-center gap-7 text-base md:flex">
@@ -40,8 +40,12 @@ function Navbar() {
               key={item.label}
               to={item.to}
               className={({ isActive }) =>
-                `transition hover:text-amber-800 ${
-                  isActive ? "text-amber-800" : "text-slate-600"
+                `relative pb-1 font-medium transition duration-200 after:absolute after:bottom-[-6px] after:left-0 after:h-[2px] after:w-full after:origin-left after:scale-x-0 after:bg-red-500 after:transition-transform after:duration-200 hover:after:scale-x-100 ${
+                  isActive
+                    ? "text-amber-800 after:scale-x-100"
+                    : isScrolled
+                      ? "text-slate-700 hover:text-amber-800"
+                      : "text-slate-100 hover:text-white"
                 }`
               }
             >
