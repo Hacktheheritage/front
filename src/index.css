@@ -50,6 +50,7 @@ main {
   background-size: 3px 3px;
 }
 
+<<<<<<< HEAD
 /* Жыл сүрүү: спокойная «книжная» гарнитура */
 .calendar-cycle-section {
   font-family: "Literata", Georgia, "Times New Roman", serif;
@@ -70,6 +71,25 @@ main {
 .calendar-cycle-section .calendar-animal-years {
   font-family: "Literata", Georgia, "Times New Roman", serif;
   font-weight: 400;
+=======
+.duration-600 {
+  transition-duration: 600ms;
+}
+
+@keyframes slideUpFade {
+  from { opacity: 0; transform: translateY(3rem); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-2.5rem); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(2.5rem); }
+  to   { opacity: 1; transform: translateX(0); }
+>>>>>>> efcaf99 (WIP: local UI changes)
 }
 
 @keyframes shimmerFlow {
