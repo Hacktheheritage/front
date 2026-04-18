@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 function Hero() {
   return (
     <section className="relative overflow-hidden pt-28">
@@ -29,12 +31,12 @@ function Hero() {
           Bilge платформасы маданий мурасты келечек муундарга жеткирүү үчүн
           ыйык жерлерди, календардагы окуяларды жана жандуу баяндарды бириктирет.
         </p>
-        <button
-          type="button"
+        <Link
+          to="/places"
           className="mt-10 rounded-full bg-indigo-600 px-8 py-3.5 text-base font-medium text-white shadow-lg shadow-indigo-200 transition hover:bg-indigo-500"
         >
           Ыйык жерлерди изилдөө
-        </button>
+        </Link>
       </div>
     </section>
   );

@@ -1,19 +1,24 @@
+import { Route, Routes } from "react-router-dom";
 import Navbar from "./components/Navbar";
-import Hero from "./components/Hero";
-import QuoteSection from "./components/QuoteSection";
-import PlacesSection from "./components/PlacesSection";
 import Chatbot from "./components/Chatbot";
 import Footer from "./components/Footer";
+import HomePage from "./pages/HomePage";
+import PlacesPage from "./pages/PlacesPage";
+import MapPage from "./pages/MapPage";
+import CalendarPage from "./pages/CalendarPage";
+import AboutPage from "./pages/AboutPage";
 
 function App() {
   return (
-    <div className="min-h-screen bg-white text-slate-800">
+    <div className="min-h-screen bg-[#f4efe5] text-slate-800">
       <Navbar />
-      <main>
-        <Hero />
-        <QuoteSection />
-        <PlacesSection />
-      </main>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/places" element={<PlacesPage />} />
+        <Route path="/map" element={<MapPage />} />
+        <Route path="/calendar" element={<CalendarPage />} />
+        <Route path="/about" element={<AboutPage />} />
+      </Routes>
       <Footer />
       <Chatbot />
     </div>
