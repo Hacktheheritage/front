@@ -158,20 +158,7 @@ function HomePage() {
           <p className="mx-auto mt-6 max-w-3xl text-lg text-white sm:text-2xl">
             Ыйык жерлерди сактап, байыркы белгилерди чечмелеп, салттуу убакытты санарип аркылуу кайра жандандырабыз.
           </p>
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
-            <a
-              className="rounded-full bg-amber-700 px-7 py-3 text-sm font-medium shadow-lg shadow-amber-900/40 transition hover:bg-amber-600 hover:scale-105 active:scale-100"
-              href="/map"
-            >
-              Картадан көрүү
-            </a>
-            <a
-              className="rounded-full border border-white/60 bg-white/10 px-7 py-3 text-sm font-medium backdrop-blur transition hover:bg-white/20 hover:scale-105 active:scale-100"
-              href="/places"
-            >
-              Изилдөөнү баштоо
-            </a>
-          </div>
+
         </div>
 
         {/* Scroll indicator */}
