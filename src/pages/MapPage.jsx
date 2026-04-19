@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, Link } from "react-router-dom";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
@@ -16,6 +16,7 @@ const icon = new L.Icon({
 const places = [
   {
     id: 1,
+    slug: "sulaiman-too",
     type: "Ыйык жерлер",
     position: [40.5243, 72.7995],
     title: "Сулайман-Тоо",
@@ -25,6 +26,7 @@ const places = [
   },
   {
     id: 2,
+    slug: "manas-ordo",
     type: "Петроглифтер",
     position: [42.746, 76.1124],
     title: "Саймалуу-Таш",
@@ -231,11 +233,34 @@ function MapPage() {
           {filtered.map((item) => (
             <Marker key={String(item.id)} position={item.position} icon={icon}>
               <Popup>
-                <div className="space-y-1 text-sm">
-                  <p><strong>Аталышы:</strong> {item.title}</p>
-                  <p><strong>Мааниси:</strong> {item.meaning}</p>
-                  <p><strong>Салттар:</strong> {item.rituals}</p>
-                  <p><strong>Коркунучтар:</strong> {item.risks}</p>
+                <div className="space-y-2">
+                  <div className="space-y-1 text-sm">
+                    <p><strong>Аталышы:</strong> {item.title}</p>
+                    <p><strong>Мааниси:</strong> {item.meaning}</p>
+                    <p><strong>Салттар:</strong> {item.rituals}</p>
+                    <p><strong>Коркунучтар:</strong> {item.risks}</p>
+                  </div>
+                  {item.slug && (
+                    <Link
+                      to={`/places/${item.slug}`}
+                      className="inline-flex items-center justify-center gap-1.5 rounded-lg bg-amber-700 px-3 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-amber-600 w-full"
+                    >
+                      Толук маалымат
+                      <svg
+                        className="h-4 w-4"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"
+                        />
+                      </svg>
+                    </Link>
+                  )}
                 </div>
               </Popup>
             </Marker>
