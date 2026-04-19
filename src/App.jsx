@@ -5,6 +5,7 @@ import Chatbot from "./components/Chatbot";
 import Footer from "./components/Footer";
 import HomePage from "./pages/HomePage";
 import PlacesPage from "./pages/PlacesPage";
+import PlacePage from "./pages/PlacePage";
 import MapPage from "./pages/MapPage";
 import CalendarPage from "./pages/CalendarPage";
 import AboutPage from "./pages/AboutPage";
@@ -30,6 +31,7 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/places" element={<PlacesPage />} />
+          <Route path="/places/:slug" element={<PlacePage />} />
           <Route path="/map" element={<MapPage />} />
           <Route path="/calendar" element={<CalendarPage />} />
           <Route path="/about" element={<AboutPage />} />
