@@ -24,15 +24,22 @@ function Footer() {
 
           {/* Center: nav links */}
           <nav className="flex flex-wrap items-center justify-center gap-5 text-xs font-medium text-slate-500">
-            {FOOTER_LINKS.map((l) => (
-              <Link
-                key={l.label}
-                to={l.to}
-                className="transition hover:text-amber-700"
-              >
-                {l.label}
-              </Link>
-            ))}
+            {FOOTER_LINKS.map((l) =>
+              l.to.startsWith("/") ? (
+                <Link key={l.label} to={l.to} className="transition hover:text-amber-700">
+                  {l.label}
+                </Link>
+              ) : (
+                <a
+                  key={l.label}
+                  href={l.to}
+                  onClick={(e) => e.preventDefault()}
+                  className="transition hover:text-amber-700"
+                >
+                  {l.label}
+                </a>
+              )
+            )}
           </nav>
 
           {/* Right: admin login */}
