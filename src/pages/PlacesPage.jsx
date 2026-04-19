@@ -1,55 +1,76 @@
-import { useState } from "react";
+import { Link } from "react-router-dom";
+import PLACES from "../data/places";
 
 function PlacesPage() {
-  const [analysis, setAnalysis] = useState(
-    "Сүрөт жүктөлгөндөн кийин AI талдоо ушул жерде көрсөтүлөт."
-  );
-
-  const onFileChange = (event) => {
-    const file = event.target.files?.[0];
-    if (!file) return;
-    setAnalysis(
-      "Бул сүрөт байыркы аңчылык маданиятын билдирет. Жаныбар образы коомдун табият менен байланышын жана жөрөлгөлүү дүйнөтаанымын чагылдырат."
-    );
-  };
+  const places = Object.values(PLACES);
 
   return (
-    <main className="mx-auto max-w-7xl px-4 pb-12 pt-24 sm:px-6 lg:px-8">
-      <h1 className="text-4xl font-semibold text-slate-900">Ыйык жерлер жана петроглифтер</h1>
-      <p className="mt-3 max-w-3xl text-slate-600">
-        Ыйык жайлардын маданий мааниси жана петроглифтерди AI аркылуу талдоо.
-      </p>
-
-      <section className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
-        <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-          <h2 className="text-2xl font-semibold">Сулайман-Тоо</h2>
-          <p className="mt-2 text-sm text-slate-600">
-            Мааниси: Ыйык тоо, зыярат жери. Салттар: ниет, тилек, ырым-жырым.
+    <main className="bg-[#f4efe5]">
+      <div className="mx-auto max-w-6xl px-4 pb-16 pt-28 sm:px-6">
+        <div className="mb-10 text-center">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-amber-700">
+            Белгилүү жайлар
           </p>
-        </article>
-        <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-          <h2 className="text-2xl font-semibold">Манас Ордо</h2>
-          <p className="mt-2 text-sm text-slate-600">
-            Мааниси: Улуттук тарыхый-маданий борбор. Салттар: руханий эскерүү, урмат.
+          <h1
+            className="mt-3 text-4xl font-semibold text-slate-800 sm:text-5xl"
+            style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
+          >
+            Ыйык жерлер
+          </h1>
+          <p className="mx-auto mt-3 max-w-xl text-sm text-slate-600">
+            Кыргызстандын тарыхый жана руханий мурасын тааныңыз.
           </p>
-        </article>
-      </section>
-
-      <section className="mt-8 rounded-2xl border border-amber-200 bg-white p-5 shadow-sm">
-        <h2 className="text-2xl font-semibold text-slate-900">Петроглиф анализи</h2>
-        <p className="mt-2 text-sm text-slate-600">
-          Сүрөт жүктөө, AI таануу жана түшүндүрмө берүү.
-        </p>
-        <input
-          type="file"
-          accept="image/*"
-          onChange={onFileChange}
-          className="mt-4 block w-full rounded-lg border border-slate-200 p-3 text-sm"
-        />
-        <div className="mt-4 rounded-xl border border-slate-100 bg-slate-50 p-4 text-sm text-slate-700">
-          {analysis}
         </div>
-      </section>
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+          {places.map((p) => (
+            <Link
+              key={p.slug}
+              to={`/places/${p.slug}`}
+              className="group relative overflow-hidden rounded-3xl shadow-xl transition-[transform,box-shadow] duration-300 hover:-translate-y-1.5 hover:shadow-2xl"
+            >
+              <img
+                src={p.heroImage}
+                alt={p.name}
+                className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/10" />
+              <div className="absolute inset-0 bg-gradient-to-b from-black/30 to-transparent" />
+              <div className="relative flex h-72 flex-col justify-between p-8 sm:h-80">
+                <span className="w-fit rounded-full border border-amber-400/50 bg-amber-900/50 px-3 py-1 text-xs font-medium text-amber-100 backdrop-blur-sm">
+                  {p.badge}
+                </span>
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-white/50">
+                    {p.region}
+                  </p>
+                  <h2
+                    className="mt-1.5 text-3xl font-semibold text-amber-200 sm:text-4xl"
+                    style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
+                  >
+                    {p.name}
+                  </h2>
+                  <div className="mt-4 flex items-center gap-1.5 text-sm font-medium text-amber-200 transition-all group-hover:gap-3">
+                    Толук маалымат
+                    <svg
+                      className="h-4 w-4"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </div>
     </main>
   );
 }
