@@ -153,7 +153,7 @@ function HomePage() {
             Кыргыз тоолорунун фонунда
             <span className="block text-amber-300">тарыхтын үнүн ук</span>
           </h1>
-          <p className="mx-auto mt-6 max-w-3xl text-base text-slate-200 sm:text-xl">
+          <p className="mx-auto mt-6 max-w-3xl text-lg text-white sm:text-2xl">
             Тарых, ыйык жерлер жана маданий мурас тууралуу маалыматты заманбап форматта таба аласыз.
           </p>
           <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
