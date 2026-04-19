@@ -207,7 +207,7 @@ export default function PlacePage() {
             Билимиңизди текшериңиз.
           </h2>
           <p className="mt-2 text-sm text-slate-500">
-            {place.quiz.length} questions to reflect on the history of {place.name}.
+            {place.quiz.length} суроо — {place.name} тарыхы боюнча.
           </p>
         </div>
         <div className="space-y-8 rounded-3xl border border-amber-100 bg-white p-6 shadow-lg sm:p-8">
