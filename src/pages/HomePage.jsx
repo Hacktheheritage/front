@@ -20,6 +20,8 @@ function getBilgeReply(text) {
     return "Карта бөлүмүндө ыйык жана тарыхый жайлардын жайгашкан жерин көрө аласыз.";
   if (q.includes("жылнаама") || q.includes("calendar"))
     return "Жылнаама бөлүмү тарыхый даталарды жана маданий окуяларды айлар боюнча көрсөтөт.";
+  if (q.includes("67"))
+    return "grown ass person btw...((";
   return "Сурооңуз жакшы экен. Кааласаңыз сайттагы бөлүмдөр тууралуу тактап сураңыз: башкы бет, жерлер, карта, жылнаама.";
 }
 
@@ -145,16 +147,16 @@ function HomePage() {
         <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_50%_15%,rgba(255,196,196,0.25),rgba(255,255,255,0))]" />
 
         <div className="mx-auto max-w-6xl px-4 py-24 text-center text-white sm:px-6">
-          <p className="text-sm tracking-[0.22em] text-amber-100/80">БАШКЫ БЕТ · КЫРГЫЗ РУХУ</p>
+          <p className="text-sm tracking-[0.22em] text-white">БАШКЫ БЕТ · КЫРГЫЗ РУХУ</p>
           <h1
-            className="mx-auto mt-6 max-w-4xl text-4xl font-semibold leading-tight sm:text-6xl"
+            className="mx-auto mt-6 max-w-4xl text-amber-600 font-semibold leading-tight sm:text-6xl"
             style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
           >
-            Кыргыз тоолорунун фонунда
-            <span className="block text-amber-300">тарыхтын үнүн ук</span>
+            Жер эскерет, Мурас жашайт
+            <span className="block text-white">Бул өткөн эмес, бул биздин жоопкерчилик</span>
           </h1>
           <p className="mx-auto mt-6 max-w-3xl text-lg text-white sm:text-2xl">
-            Тарых, ыйык жерлер жана маданий мурас тууралуу маалыматты заманбап форматта таба аласыз.
+            Ыйык жерлерди сактап, байыркы белгилерди чечмелеп, салттуу убакытты санарип аркылуу кайра жандандырабыз.
           </p>
           <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
             <a
@@ -333,55 +335,55 @@ function HomePage() {
       {/* ── 5. MISSION TEASER ───────────────────────────────────────────── */}
       {showMission ? (
         <section ref={missionRef} className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
-        <div
-          className={`overflow-hidden rounded-3xl border border-slate-100 bg-white/80 shadow-xl shadow-slate-200/50 transition-all duration-700 ${missionVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-            }`}
-        >
-          <div className="grid grid-cols-1 lg:grid-cols-2">
-            {/* Text side */}
-            <div className="p-10 sm:p-14">
-              <p className="text-[11px] font-semibold tracking-[0.22em] text-amber-700 uppercase">Биздин миссия</p>
-              <h2
-                className="mt-4 text-3xl font-semibold leading-snug text-slate-800 sm:text-4xl"
-                style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
-              >
-                Маданий мурасты технология аркылуу сактоо
-              </h2>
-              <p className="mt-5 text-base leading-relaxed text-slate-600">
-                Bilge платформасы кыргыз элинин байыркы тарыхын, ыйык жерлерин жана маданий мурасын заманбап технологиялар аркылуу келечек муундарга жеткирүү үчүн иштеп жатат.
-              </p>
-              <p className="mt-3 text-base leading-relaxed text-slate-600">
-                Интерактив карта, AI-талдоо жана мүчөл жылнаамасы аркылуу тарых жандуу болуп, баарына жеткиликтүү болот.
-              </p>
-              <a
-                href="/about"
-                className="mt-8 inline-flex items-center gap-2 rounded-full bg-slate-900 px-6 py-3 text-sm font-medium text-white transition hover:bg-amber-700"
-              >
-                Биз жөнүндө
-                <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
-                </svg>
-              </a>
-            </div>
-            {/* Ornament panel */}
-            <div className="relative hidden items-center justify-center bg-gradient-to-br from-[#130c24] to-[#1e1040] lg:flex">
-              <div
-                className="absolute inset-0 opacity-[0.05]"
-                style={{
-                  backgroundImage:
-                    "repeating-linear-gradient(45deg, #b45309 0, #b45309 1px, transparent 0, transparent 50%)",
-                  backgroundSize: "14px 14px",
-                }}
-              />
-              <KyrgyzOrnament className="h-52 w-52 opacity-55" />
-              <div className="absolute bottom-7 right-8 text-right">
-                <p className="text-xs tracking-widest text-amber-400/60 uppercase">𐰉𐰃𐰠𐰏𐰀</p>
-                <p className="mt-0.5 text-[10px] text-white/30">Билге · Bilge</p>
+          <div
+            className={`overflow-hidden rounded-3xl border border-slate-100 bg-white/80 shadow-xl shadow-slate-200/50 transition-all duration-700 ${missionVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+              }`}
+          >
+            <div className="grid grid-cols-1 lg:grid-cols-2">
+              {/* Text side */}
+              <div className="p-10 sm:p-14">
+                <p className="text-[11px] font-semibold tracking-[0.22em] text-amber-700 uppercase">Биздин миссия</p>
+                <h2
+                  className="mt-4 text-3xl font-semibold leading-snug text-slate-800 sm:text-4xl"
+                  style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
+                >
+                  Маданий мурасты технология аркылуу сактоо
+                </h2>
+                <p className="mt-5 text-base leading-relaxed text-slate-600">
+                  Bilge платформасы кыргыз элинин байыркы тарыхын, ыйык жерлерин жана маданий мурасын заманбап технологиялар аркылуу келечек муундарга жеткирүү үчүн иштеп жатат.
+                </p>
+                <p className="mt-3 text-base leading-relaxed text-slate-600">
+                  Интерактив карта, AI-талдоо жана мүчөл жылнаамасы аркылуу тарых жандуу болуп, баарына жеткиликтүү болот.
+                </p>
+                <a
+                  href="/about"
+                  className="mt-8 inline-flex items-center gap-2 rounded-full bg-slate-900 px-6 py-3 text-sm font-medium text-white transition hover:bg-amber-700"
+                >
+                  Биз жөнүндө
+                  <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+                  </svg>
+                </a>
+              </div>
+              {/* Ornament panel */}
+              <div className="relative hidden items-center justify-center bg-gradient-to-br from-[#130c24] to-[#1e1040] lg:flex">
+                <div
+                  className="absolute inset-0 opacity-[0.05]"
+                  style={{
+                    backgroundImage:
+                      "repeating-linear-gradient(45deg, #b45309 0, #b45309 1px, transparent 0, transparent 50%)",
+                    backgroundSize: "14px 14px",
+                  }}
+                />
+                <KyrgyzOrnament className="h-52 w-52 opacity-55" />
+                <div className="absolute bottom-7 right-8 text-right">
+                  <p className="text-xs tracking-widest text-amber-400/60 uppercase">𐰉𐰃𐰠𐰏𐰀</p>
+                  <p className="mt-0.5 text-[10px] text-white/30">Билге · Bilge</p>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
       ) : null}
 
       {/* ── 6. QUOTE ────────────────────────────────────────────────────── */}
@@ -390,24 +392,24 @@ function HomePage() {
           <div
             className={`relative overflow-hidden rounded-3xl bg-white/90 px-8 py-12 text-center shadow-xl shadow-slate-200/40 sm:px-16 transition-all duration-700 ${quoteVisible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
               }`}
-        >
-          <span
-            className="pointer-events-none absolute left-5 top-0 select-none leading-none text-9xl font-bold text-amber-100"
-            style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
           >
-            "
-          </span>
-          <blockquote
-            className="relative text-2xl italic leading-relaxed text-slate-700 sm:text-3xl"
-            style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
-          >
-            "Өзүнүн тарыхын билбеген элдин тагдыры тайкы, келечеги бүдөмүк"
-          </blockquote>
-          <p className="mt-5 text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">
-            — Асылбек Жээнбеков
-          </p>
-        </div>
-      </section>
+            <span
+              className="pointer-events-none absolute left-5 top-0 select-none leading-none text-9xl font-bold text-amber-100"
+              style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
+            >
+              "
+            </span>
+            <blockquote
+              className="relative text-2xl italic leading-relaxed text-slate-700 sm:text-3xl"
+              style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
+            >
+              "Өзүнүн тарыхын билбеген элдин тагдыры тайкы, келечеги бүдөмүк"
+            </blockquote>
+            <p className="mt-5 text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">
+              — Асылбек Жээнбеков
+            </p>
+          </div>
+        </section>
       ) : null}
 
       {/* ── 7. CHATBOT ──────────────────────────────────────────────────── */}

@@ -43,6 +43,24 @@ const places = [
     rituals: "Дарылык ниет, тазалануу жөрөлгөсү",
     risks: "Туристтик жүк, таштанды",
   },
+  {
+    id: 4,
+    type: "Ыйык жерлер",
+    position: [42.855, 74.456],
+    title: "Менин уйум",
+    meaning: "Келбегиле",
+    rituals: "Бата кылуу",
+    risks: "риск жок",
+  },
+  {
+    id: 5,
+    type: "Табигый объекттер",
+    position: [41.433, 76.183],
+    title: "Азиманын үйү",
+    meaning: "Нарын, Салкын-Төр",
+    rituals: "Конок күтүү",
+    risks: "риск жок",
+  },
 ];
 
 const heroPlaces = HERO_SLIDES.map((slide) => ({
@@ -208,11 +226,10 @@ function MapPage() {
             key={item}
             type="button"
             onClick={() => setFilter(item)}
-            className={`rounded-full px-4 py-2 text-sm ${
-              filter === item
+            className={`rounded-full px-4 py-2 text-sm ${filter === item
                 ? "bg-amber-700 text-white"
                 : "border border-amber-200 bg-white text-amber-800"
-            }`}
+              }`}
           >
             {item}
           </button>
