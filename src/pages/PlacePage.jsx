@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import PLACES from "../data/places";
 
@@ -22,11 +22,14 @@ function GlanceItem({ item, isOpen, onToggle }) {
           <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
         </svg>
       </button>
-      {isOpen && (
+      <div
+        className="overflow-hidden transition-[max-height] duration-300 ease-in-out"
+        style={{ maxHeight: isOpen ? "500px" : "0px" }}
+      >
         <div className="px-5 pb-4 text-sm leading-relaxed text-slate-600">
           {item.body}
         </div>
-      )}
+      </div>
     </div>
   );
 }
@@ -35,9 +38,13 @@ export default function PlacePage() {
   const { slug } = useParams();
   const place = PLACES[slug];
 
-  const [openGlance, setOpenGlance] = useState(0);
+  const [openGlance, setOpenGlance] = useState(-1);
   const [answers, setAnswers] = useState({});
   const [submitted, setSubmitted] = useState(false);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [slug]);
 
   if (!place) {
     return (

@@ -14,7 +14,7 @@ function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setIsScrolled(window.scrollY > 24);
+    const onScroll = () => setIsScrolled(window.scrollY > 100);
     onScroll();
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
@@ -22,11 +22,10 @@ function Navbar() {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-40 transition-all duration-300 ${
-        isScrolled
-          ? "header-glow border-b border-amber-100/80 bg-[#f4efe5]/92 shadow-sm backdrop-blur-lg"
-          : "border-b border-white/15 bg-[#0f1b3d]/35 backdrop-blur-md"
-      }`}
+      className={`fixed inset-x-0 top-0 z-40 border-b transition-colors duration-300 backdrop-blur-md ${isScrolled
+          ? "border-amber-100/80 bg-[#f4efe5]/90 shadow-sm"
+          : "border-white/10 bg-[#0f1b3d]/30"
+        }`}
     >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <NavLink to="/" className="flex items-end gap-2 text-2xl font-semibold tracking-tight">
@@ -40,12 +39,11 @@ function Navbar() {
               key={item.label}
               to={item.to}
               className={({ isActive }) =>
-                `relative pb-1 font-medium transition duration-200 after:absolute after:bottom-[-6px] after:left-0 after:h-[2px] after:w-full after:origin-left after:scale-x-0 after:bg-red-500 after:transition-transform after:duration-200 hover:after:scale-x-100 ${
-                  isActive
-                    ? "text-amber-800 after:scale-x-100"
-                    : isScrolled
-                      ? "text-slate-700 hover:text-amber-800"
-                      : "text-slate-100 hover:text-white"
+                `relative pb-1 font-medium transition duration-200 after:absolute after:bottom-[-6px] after:left-0 after:h-[2px] after:w-full after:origin-left after:scale-x-0 after:bg-red-500 after:transition-transform after:duration-200 hover:after:scale-x-100 ${isActive
+                  ? "text-amber-800 after:scale-x-100"
+                  : isScrolled
+                    ? "text-slate-700 hover:text-amber-800"
+                    : "text-slate-100 hover:text-white"
                 }`
               }
             >
