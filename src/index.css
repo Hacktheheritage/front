@@ -50,6 +50,31 @@ main {
   background-size: 3px 3px;
 }
 
+<<<<<<< HEAD
+=======
+/* Жыл сүрүү: спокойная «книжная» гарнитура */
+.calendar-cycle-section {
+  font-family: "Literata", Georgia, "Times New Roman", serif;
+}
+
+.calendar-cycle-section .calendar-cycle-heading {
+  font-family: "Literata", Georgia, "Times New Roman", serif;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+.calendar-cycle-section .calendar-animal-title {
+  font-family: "Literata", Georgia, "Times New Roman", serif;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+}
+
+.calendar-cycle-section .calendar-animal-years {
+  font-family: "Literata", Georgia, "Times New Roman", serif;
+  font-weight: 400;
+}
+
+>>>>>>> f17febb24cd038e44657827855d6d4939ec8d0d6
 .duration-600 {
   transition-duration: 600ms;
 }
@@ -79,6 +104,7 @@ main {
 }
 
 @keyframes slideInRight {
+<<<<<<< HEAD
   from {
     opacity: 0;
     transform: translateX(2.5rem);
@@ -88,6 +114,10 @@ main {
     opacity: 1;
     transform: translateX(0);
   }
+=======
+  from { opacity: 0; transform: translateX(2.5rem); }
+  to   { opacity: 1; transform: translateX(0); }
+>>>>>>> f17febb24cd038e44657827855d6d4939ec8d0d6
 }
 
 @keyframes shimmerFlow {
