@@ -8,6 +8,7 @@ function GlanceItem({ item, isOpen, onToggle }) {
       <button
         type="button"
         onClick={onToggle}
+        aria-expanded={isOpen}
         className="flex w-full items-center justify-between px-5 py-4 text-left text-sm font-medium text-slate-800 transition hover:bg-slate-50"
       >
         {item.title}
@@ -120,7 +121,7 @@ export default function PlacePage() {
           className="mb-8 text-center text-3xl font-semibold text-slate-800 sm:text-4xl"
           style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
         >
-          At a Glance
+          Кыскача маалымат
         </h2>
         <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
           {place.glance.map((item, i) => (
@@ -169,9 +170,9 @@ export default function PlacePage() {
             className="text-3xl font-semibold text-slate-800 sm:text-4xl"
             style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
           >
-            Visual Archive.
+            Сүрөт архиви.
           </h2>
-          <p className="text-xs text-slate-400">A curated collection of perspectives.</p>
+          <p className="text-xs text-slate-400">Сайланма перспективалар жыйнагы.</p>
         </div>
         <div
           className="grid gap-3"
@@ -203,10 +204,10 @@ export default function PlacePage() {
             className="text-3xl font-semibold text-slate-800 sm:text-4xl"
             style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
           >
-            Test Your Knowledge.
+            Билимиңизди текшериңиз.
           </h2>
           <p className="mt-2 text-sm text-slate-500">
-            Seven questions to reflect on the history of {place.name}.
+            {place.quiz.length} questions to reflect on the history of {place.name}.
           </p>
         </div>
         <div className="space-y-8 rounded-3xl border border-amber-100 bg-white p-6 shadow-lg sm:p-8">
@@ -258,10 +259,10 @@ export default function PlacePage() {
                 className="text-4xl font-semibold text-amber-800"
                 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
               >
-                {score} / 7
+                {score} / {place.quiz.length}
               </p>
               <p className="mt-1 text-sm text-amber-700">
-                {score === 7
+                {score === place.quiz.length
                   ? "Мыкты! Баары туура."
                   : score >= 5
                   ? "Жакшы! Дагы аракет кылыңыз."
@@ -282,10 +283,18 @@ export default function PlacePage() {
             <div className="text-center">
               <button
                 type="button"
-                onClick={() => setSubmitted(true)}
-                className="rounded-full bg-amber-700 px-8 py-3 text-sm font-medium text-white shadow-lg shadow-amber-900/30 transition hover:bg-amber-600 hover:scale-105 active:scale-100"
+                disabled={Object.keys(answers).length < place.quiz.length}
+                onClick={() => {
+                  if (Object.keys(answers).length < place.quiz.length) return;
+                  setSubmitted(true);
+                }}
+                className={`rounded-full px-8 py-3 text-sm font-medium text-white shadow-lg transition ${
+                  Object.keys(answers).length < place.quiz.length
+                    ? "cursor-not-allowed bg-slate-400"
+                    : "bg-amber-700 shadow-amber-900/30 hover:bg-amber-600 hover:scale-105 active:scale-100"
+                }`}
               >
-                Submit Answers
+                Жоопторду жөнөтүү
               </button>
             </div>
           )}
